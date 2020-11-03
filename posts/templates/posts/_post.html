@@ -1,0 +1,35 @@
+<div class="jumbotron">
+    <p style="font-size:300px"  onclick="" class="">{{ post.message_html |safe }}</p>
+    <div class="row">
+        <div class="col col-md-4">
+            <time class="row-md-4">
+                <a href="{% url 'posts:single' username=post.user.username pk=post.pk %}">{{post.created_at}}</a>
+            </time>
+
+            <span class="username row-md-4">
+                <p class="lead"> by
+                    <a href="{%url 'posts:by_user' username=user.username %}">@{{post.user.username}}</a>
+                    {% if post.group %}
+                        <span class="group-name"> in {{ post.group.name }}</span>
+                    {% endif %}
+                </p>
+            </span>
+
+        </div>
+
+        <div class="col-md-4">
+                {% if user.is_authenticated and post.user == user %}
+                    <a href="{% url 'posts:delete' pk=post.pk %}" title="delete" class="btn btn-sm btn-outline-danger">
+                        DELETE
+                    </a>
+                {% endif %}
+        </div>
+         <div class="col-md-4">
+                {% if user.is_authenticated and post.user == user %}
+                    <a href="{% url 'posts:update' pk=post.pk %}" title="update" class="btn btn-sm btn-outline-success">
+                        UPDATE
+                    </a>
+                {% endif %}
+        </div>
+    </div>
+</div>

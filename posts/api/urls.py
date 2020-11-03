@@ -1,0 +1,14 @@
+from .views import PostList,api_update_postview,api_create_postview,api_delete_postview
+from django.urls import path
+
+
+app_name = 'posts'
+
+urlpatterns = [
+    path('all/',PostList.as_view(),name='postlist'),
+    path('update/<int:pk>/',api_update_postview,name='postupdate'),
+    path('create/',api_create_postview,name='postcreate'),
+    path('delete/<int:pk>/',api_delete_postview,name='postdelete'),
+
+
+]

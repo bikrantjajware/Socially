@@ -1,0 +1,54 @@
+{% extends 'groups/group_base.html' %}
+
+{% block pre_group %}
+<div class="">
+    <div class="content">
+        {% if user.is_authenticated %}
+            <h2>Welcome Back
+            <a href="{% url 'posts:by_user' username=user.username %}">@{{user.username}}</a>
+            </h2>
+        {% endif %}
+         <h2>Groups</h2>
+        <p>Welcome to groups page</p>
+    </div>
+
+    {% if user.is_authenticated %}
+        <a href="{% url 'groups:create' %}" class="btn btn-md btn-fill btn-warning">
+            <span class="glyphicon glyphicon-plus-sign">Create New Group!</span>
+        </a>
+    {% endif %}
+
+</div>
+{% endblock %}
+
+{% block group_content %}
+<div class="">
+    <center><h1> Groups</h1></center>
+
+ </div>
+<div class="h">
+    {% for group in object_list %}
+       <div class="jumbotron">
+            <a class="" href="{% url 'groups:single' slug=group.slug %}">
+            <h5 class="display-4" >{{group.name|capfirst}}</h5>
+            <div class="">
+                <p class="">{{group.description}}</p>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                        <span class="badge">{{group.members.count}}</span>
+                        member{{group.members.count|pluralize}}
+                    </div>
+
+                </div>
+
+        </a>
+       </div>
+
+    {% empty %}
+        <p>No groups yet</p>
+        <a class="btn btn-primary" type="button" href="{% url 'groups:create' %}">Create New</a>
+    {% endfor %}
+</div>
+
+{% endblock %}

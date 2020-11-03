@@ -1,0 +1,38 @@
+{% extends 'posts/post_base.html' %}
+{% load humanize %}
+
+{% block pre_pst %}
+<div class="col-md-8">
+
+    {% if user.is_authenticated %}
+        <div class="card card-with-shadow">
+
+            <div class="content">
+                <h3 class="title"> Your Groups{{ mship }}</h3>
+                <ul class="list-unstyled">
+
+                    {% for member_group in listgroups  %}
+                        <li class="group li-with-bullet"><a href="{% url 'groups:single' slug=member_group.group.slug %}">{{member_group.group.name}}</a> </li>
+                    {% empty %}
+                        <li class="group li-with-bullet"><p>No groups yet</p></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% else %}
+        <h2>User not logged in</h2>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block post_content %}
+
+<div class="list-group">
+    {% for post in object_list %}
+        {% include 'posts/_post.html' %}
+    {% endfor %}
+</div>
+
+
+
+{% endblock %}
