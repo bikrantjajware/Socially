@@ -32,7 +32,7 @@ class ListPost(LoginRequiredMixin,SelectRelatedMixin,ListView):
 
 
 class CreatePost(LoginRequiredMixin,CreateView):
-    fields = ('message','group')
+    fields = ('title','message','group')
     model = models.Post
 
     def form_valid(self, form):

@@ -1,4 +1,5 @@
 <div class="jumbotron">
+    <p style=""  onclick="" class="">{{ post.title |safe }}</p>
     <p style="font-size:300px"  onclick="" class="">{{ post.message_html |safe }}</p>
     <div class="row">
         <div class="col col-md-4">
@@ -8,7 +9,7 @@
 
             <span class="username row-md-4">
                 <p class="lead"> by
-                    <a href="{%url 'posts:by_user' username=user.username %}">@{{post.user.username}}</a>
+                    <a href="{%url 'posts:by_user' username=post.user.username %}">@{{post.user.username}}</a>
                     {% if post.group %}
                         <span class="group-name"> in {{ post.group.name }}</span>
                     {% endif %}
