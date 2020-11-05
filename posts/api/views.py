@@ -1,4 +1,3 @@
-from django.http import Http404
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
@@ -10,6 +9,7 @@ from rest_framework.pagination import PageNumberPagination
 from ..models import Post
 from .serializers import PostSerializer,PostUpdateSerializer
 from django.contrib.auth import models
+from rest_framework.filters import SearchFilter,OrderingFilter
 
 account = models.User.objects.get(username='bikrant')
 print(account)
@@ -33,6 +33,8 @@ class PostList(ListAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     pagination_class = PageNumberPagination
+    filter_backends = (SearchFilter,OrderingFilter)
+    search_fields = ('title','message','user__username')
 
 
 class PostUpdate(APIView):
