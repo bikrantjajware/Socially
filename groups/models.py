@@ -24,6 +24,7 @@ class Group(models.Model):
     def save(self,*args,**kwargs):
         self.slug = slugify(self.name)
         self.description_html = misaka.html(self.description)
+
         super().save(*args,**kwargs)
 
     def get_absolute_url(self):

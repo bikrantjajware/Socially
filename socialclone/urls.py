@@ -32,5 +32,6 @@ urlpatterns = [
     #REST FRAMEWORK URLS
     path('api/posts/',include('posts.api.urls',namespace='posts_api')),
     path('api/accounts/',include('accounts.api.urls',namespace='accounts_api')),
+    path('api/groups/',include('groups.api.urls',namespace='groups_api')),
 
 ]

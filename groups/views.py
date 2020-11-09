@@ -19,6 +19,13 @@ class CreateGroup(LoginRequiredMixin,CreateView):
     fields = ('name', 'description')
     model = models.Group
 
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+
+        instance.save()
+        instance.members.add(self.request.user)
+        return super().form_valid(form)
+
     # def get_success_url(self):
     #     group = get_object_or_404(models.Group, slug=self.kwargs.get('slug'))
     #     try:
