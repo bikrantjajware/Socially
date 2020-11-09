@@ -8,4 +8,4 @@ Basic Functionalities added in Website:
 3>Create/Update/Delete Posts
 
 #UPDATE
-Working to create REST API endpoints for each of the basic functionality
+REST API endpoints for all apps.
