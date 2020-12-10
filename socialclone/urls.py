@@ -15,6 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path , include
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.auth import views as auth_view
+
+
 from . import  views
 
 urlpatterns = [
@@ -25,7 +30,7 @@ urlpatterns = [
     path('groups/',include('groups.urls',namespace='groups')),
     path('posts/',include('posts.urls',namespace='posts')),
     path('login_success/',views.login.as_view(),name='login_success'),
-    path('thanks/',views.thankyou.as_view(),name='thanks'),
+    path('thanks/',auth_view.LoginView.as_view(template_name='accounts/login.html'),name='thanks'),
 
 
 
@@ -35,3 +40,7 @@ urlpatterns = [
     path('api/groups/',include('groups.api.urls',namespace='groups_api')),
 
 ]
+
+if settings.DEBUG:
+        urlpatterns += static(settings.MEDIA_URL,
+                              document_root=settings.MEDIA_ROOT)

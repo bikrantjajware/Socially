@@ -1,36 +1,51 @@
-<div class="jumbotron">
-    <p style=""  onclick="" class="">{{ post.title |safe }}</p>
-    <p style="font-size:300px"  onclick="" class="">{{ post.message_html |safe }}</p>
-    <div class="row">
-        <div class="col col-md-4">
-            <time class="row-md-4">
-                <a href="{% url 'posts:single' username=post.user.username pk=post.pk %}">{{post.created_at}}</a>
-            </time>
-
-            <span class="username row-md-4">
-                <p class="lead"> by
-                    <a href="{%url 'posts:by_user' username=post.user.username %}">@{{post.user.username}}</a>
-                    {% if post.group %}
-                        <span class="group-name"> in {{ post.group.name }}</span>
-                    {% endif %}
-                </p>
-            </span>
-
+    <div  class="container pt-4 pb-4 text-dark  border-bottom " >
+        <div class=" "><h1 class="display-4" onclick="{% url 'posts:single' username=post.user.username pk=post.pk %}">{{post.title |safe}}</h1> </div>
+        <div class="">
+            <div class="lead"><p class="lead">{{post.message_html|safe}}</p> </div>
         </div>
 
-        <div class="col-md-4">
-                {% if user.is_authenticated and post.user == user %}
-                    <a href="{% url 'posts:delete' pk=post.pk %}" title="delete" class="btn btn-sm btn-outline-danger">
-                        DELETE
-                    </a>
-                {% endif %}
+        <div class="row">
+            {% if post.group.slug %}
+            <div class="col-sm-4"><a href="{% url 'groups:single' slug=post.group.slug %}" >{{post.group.name}}</a></div>
+            {% endif %}
+            <div class="col-sm-4">created: {{post.created_at}}</div>
+            <div class="col-sm-4">updated: {{post.updated_at}}</div>
         </div>
-         <div class="col-md-4">
-                {% if user.is_authenticated and post.user == user %}
-                    <a href="{% url 'posts:update' pk=post.pk %}" title="update" class="btn btn-sm btn-outline-success">
-                        UPDATE
-                    </a>
-                {% endif %}
-        </div>
-    </div>
 </div>
+
+
+<!--<div class="container">-->
+<!--    <div class="well">-->
+<!--        <div class="media">-->
+<!--            <div class="media-body">-->
+<!--                <h1>{{ post.title |safe }}</h1>-->
+<!--                <p class="text-right">By {{post.user.username}}</p>-->
+<!--                <p>{{ post.message_html |safe }}</p>-->
+<!--                <ul class="list-inline list-unstyled">-->
+<!--  			<li><span><i class="glyphicon glyphicon-calendar"></i> {{post.created_at}} </span></li>-->
+<!--                     {% if post.group %}-->
+<!--                        <span class="group-name"> in {{ post.group.name }}</span>-->
+<!--                    {% endif %}-->
+
+<!--			</ul>-->
+
+<!--    <div class="row">-->
+<!--    <div class="col-md-4">-->
+<!--                {% if user.is_authenticated and post.user == user %}-->
+<!--                    <a href="{% url 'posts:delete' pk=post.pk %}" title="delete" class="btn btn-sm btn-outline-danger">-->
+<!--                        DELETE-->
+<!--                    </a>-->
+<!--                {% endif %}-->
+<!--        </div>-->
+<!--         <div class="col-md-4">-->
+<!--                {% if user.is_authenticated and post.user == user %}-->
+<!--                    <a href="{% url 'posts:update' pk=post.pk %}" title="update" class="btn btn-sm btn-outline-success">-->
+<!--                        UPDATE-->
+<!--                    </a>-->
+<!--                {% endif %}-->
+<!--        </div>-->
+<!--    </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->

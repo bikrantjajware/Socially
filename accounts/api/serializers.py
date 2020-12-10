@@ -1,12 +1,14 @@
 from rest_framework import serializers
-from ..models import User
+from ..models import User,UserProfile
+from phonenumber_field.serializerfields import PhoneNumberField
 
 
-class RegisterSerializer(serializers.ModelSerializer):
+
+class AccountSerializer(serializers.ModelSerializer):
     password2= serializers.CharField(style={'input_type':'password'},write_only=True)
     class Meta:
         model = User
-        fields = ['username','email','password','password2']
+        fields = ['pk','username','email','password','password2']
         extra_kwargs = {
             'password' :{'write_only':True }
         }
@@ -19,6 +21,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         password = self.validated_data['password']
         password2 = self.validated_data['password2']
+
         if password != password2:
             raise serializers.ValidationError({"password":"password must match"})
         account.set_password(password)
@@ -26,8 +29,8 @@ class RegisterSerializer(serializers.ModelSerializer):
         return account
 
 
-class AccountPropertySerializer(serializers.ModelSerializer):
-
+class ProfileSerializer(serializers.ModelSerializer):
+    user = AccountSerializer()
     class Meta:
-        model = User
-        fields = ['pk','username','email']
+        model = UserProfile
+        fields = ['user','bio','phone','avatar']

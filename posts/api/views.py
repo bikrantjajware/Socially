@@ -28,13 +28,21 @@ def api_detail_view(request,slug):
 
 
 class PostList(ListAPIView):
-    queryset = Post.objects.all()
     serializer_class = PostSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
-    pagination_class = PageNumberPagination
-    filter_backends = (SearchFilter,OrderingFilter)
-    search_fields = ('title','message','user__username')
+
+
+    def get_queryset(self):
+
+        user = self.request.user
+        gps=[]
+        for group in user.user_groups.all():
+            gps.append(group.group)
+        return Post.objects.filter(group__in=gps)
+    # pagination_class = PageNumberPagination
+    # filter_backends = (SearchFilter,OrderingFilter)
+    # search_fields = ('title','message','user__username')
 
 
 class PostUpdate(APIView):

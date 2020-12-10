@@ -9,8 +9,19 @@ from rest_framework.pagination import PageNumberPagination
 from ..models import Group,GroupMember
 from django.db import  IntegrityError
 from .serializers import GroupSerializer
+from rest_framework.generics import ListAPIView
 from django.contrib.auth import models
 from rest_framework.filters import SearchFilter,OrderingFilter
+
+
+class ApiPostListView(ListAPIView):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    # pagination_class = PageNumberPagination
+    # filter_backends = (SearchFilter, OrderingFilter)
+    # search_fields = ('title', 'message', 'user__username')
 
 
 

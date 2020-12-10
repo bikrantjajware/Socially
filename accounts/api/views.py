@@ -1,16 +1,28 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view,permission_classes
-from  rest_framework.permissions import IsAuthenticated
-
-from .serializers import RegisterSerializer,AccountPropertySerializer
+from  rest_framework.permissions import IsAuthenticated,AllowAny
+from ..models import UserProfile
+from django.contrib.auth.models import User
+from rest_framework import viewsets
+from .serializers import AccountSerializer,ProfileSerializer
 from rest_framework.authtoken.models import Token
+from django.http import Http404
+
+
+class ProfileViewset(viewsets.ModelViewSet):
+    serializer_class = ProfileSerializer
+    queryset = UserProfile.objects.all()
+    lookup_field = 'user'
+
+
 
 @api_view(['POST',])
+@permission_classes((AllowAny,))
 def registration_view(request):
 
     if request.method == "POST":
-        serializer = RegisterSerializer(data=request.data)
+        serializer = AccountSerializer(data=request.data)
         data={}
         if serializer.is_valid():
             account = serializer.save()
@@ -30,25 +42,25 @@ def registration_view(request):
 def account_view(request):
 
     try:
-        account = request.user
-    except User.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        profile = UserProfile.objects.get(user=request.user.pk)
+    except UserProfile.DoesNotExist:
+        raise Http404
 
     if request.method == "GET":
-        serializer = AccountPropertySerializer(account)
+        serializer = ProfileSerializer(profile)
         return Response(serializer.data)
 
 
-@api_view(['PUT',])
+@api_view(['PUT','PATCH',])
 @permission_classes((IsAuthenticated,))
 def update_account_view(request):
     try:
-        account = request.user
-    except User.DoesNotExist:
+        profile = UserProfile.objects.get(user=request.user.pk)
+    except UserProfile.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    if request.method == "PUT":
-        serializer = AccountPropertySerializer(account,data=request.data)
+    if request.method == "PUT" or request.method=="PATCH":
+        serializer = ProfileSerializer(profile, data=request.data, partial=True)
         data={}
         if serializer.is_valid():
             serializer.save()

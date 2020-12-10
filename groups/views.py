@@ -1,12 +1,13 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.views.generic import ListView,CreateView,DetailView,RedirectView
+from django.views.generic import ListView,CreateView,DetailView,RedirectView,DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.db import IntegrityError
 from django.contrib import messages
+from django.urls import  reverse_lazy
 from . import models
 
 
@@ -102,4 +103,5 @@ class LeaveGroup(LoginRequiredMixin,RedirectView):
 
 
         return super().get(self,*args,**kwargs)
+
 

@@ -18,7 +18,9 @@ from django.contrib.auth import  get_user_model
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
-print(TEMPLATE_DIR)
+FONTS_DIR = os.path.join(BASE_DIR,'fonts')
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_URL = '/media/'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -28,7 +30,7 @@ SECRET_KEY = 'hc7i%)snt5zi$vg$#h*hpc+$5+9+smn^uc8t(&20-!j*dk^z8m'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.43.185']
+ALLOWED_HOSTS = ['192.168.43.185','127.0.0.1']
 
 
 # Application definition
@@ -41,12 +43,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'corsheaders',
+    'phonenumber_field',
     'rest_framework',
     'rest_framework.authtoken',
     'bootstrap3',
     'accounts',
     'groups',
     'posts',
+
 
 ]
 
@@ -57,18 +62,23 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE':10,
+   # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    #'PAGE_SIZE':10,
 }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CORS_ORIGIN_REGEX_WHITELIST = [
+    "http://localhost:3000",
 ]
 
 ROOT_URLCONF = 'socialclone.urls'
