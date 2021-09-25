@@ -45,7 +45,7 @@ def registration_view(request):
 def account_view(request):
 
     try:
-        profile = User.objects.get(user=request.user.pk)
+        profile = User.objects.get(id=request.user.pk)
     except User.DoesNotExist:
         raise Http404
 
