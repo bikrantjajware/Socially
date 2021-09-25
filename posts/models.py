@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from groups.models import Group
-from accounts.models import UserProfile
+# from accounts.models import UserProfile
 from django.urls import reverse
 from django.utils.text import slugify
 import misaka

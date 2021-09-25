@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from ..models import Group
 from django.utils.text import slugify
-from accounts.api.serializers import ProfileSerializer,AccountSerializer
+# from accounts.api.serializers import ProfileSerializer,AccountSerializer
 from posts.api.serializers import  PostSerializer
 
 

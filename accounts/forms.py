@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-from .models import UserProfile,User
+from .models import User
 from django.forms import ModelForm
 
 
@@ -10,17 +10,17 @@ class UserCreateForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
 
-class Register(ModelForm):
-
-    # def __init__(self,*args,**kwargs):
-    #     super(Register, self).__init__(*args, **kwargs)
-    #     for field in ["username", "password1", "password2", "email","avatar"]:
-    #         self.fields[field].help_text = None
-
-    class Meta:
-        model = UserProfile
-        fields = '__all__'
-        exclude = ['user']
+# class Register(ModelForm):
+#
+#     # def __init__(self,*args,**kwargs):
+#     #     super(Register, self).__init__(*args, **kwargs)
+#     #     for field in ["username", "password1", "password2", "email","avatar"]:
+#     #         self.fields[field].help_text = None
+#
+#     class Meta:
+#         model = UserProfile
+#         fields = '__all__'
+#         exclude = ['user']
         # help_texts = {k: "" for k in fields}
 
 

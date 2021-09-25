@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import User,UserProfile
+from ..models import User
 
 from phonenumber_field.serializerfields import PhoneNumberField
 
@@ -28,9 +28,9 @@ class AccountSerializer(serializers.ModelSerializer):
         account.save()
         return account
 
-
-class ProfileSerializer(serializers.ModelSerializer):
-    user = AccountSerializer()
-    class Meta:
-        model = UserProfile
-        fields = ['user','bio','phone','avatar']
+#
+# class ProfileSerializer(serializers.ModelSerializer):
+#     user = AccountSerializer()
+#     class Meta:
+#         model = UserProfile
+#         fields = ['user','bio','phone','avatar']
