@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
 from pathlib import Path
+import django_heroku
 from django.contrib.auth import  get_user_model
 
 
@@ -154,3 +155,6 @@ STATICFILES_DIRS =[os.path.join(BASE_DIR,'static')]
 
 LOGIN_REDIRECT_URL = 'login_success'
 LOGOUT_REDIRECT_URL = 'thanks'
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
