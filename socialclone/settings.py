@@ -31,7 +31,7 @@ SECRET_KEY = 'hc7i%)snt5zi$vg$#h*hpc+$5+9+smn^uc8t(&20-!j*dk^z8m'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.9','127.0.0.1']
+ALLOWED_HOSTS = ['192.168.1.9','127.0.0.1','https://react-bloger.herokuapp.com/*']
 
 
 # Application definition
