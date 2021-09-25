@@ -80,6 +80,7 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_REGEX_WHITELIST = [
     "http://localhost:3000",
+    "https://react-bloger.herokuapp.com/*",
 ]
 
 ROOT_URLCONF = 'socialclone.urls'
