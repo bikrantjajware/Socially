@@ -24,7 +24,7 @@ class CreateGroup(LoginRequiredMixin,CreateView):
         instance = form.save(commit=False)
 
         instance.save()
-        instance.members.add(self.request.user)
+        instance.members.add(self.request.user.user_profile)
         return super().form_valid(form)
 
     # def get_success_url(self):
@@ -47,10 +47,14 @@ class CreateGroup(LoginRequiredMixin,CreateView):
 # The name of the URLConf keyword argument that contains the slug. By default, slug_url_kwarg is 'slug'.
 
 
-class DetailGroup(DetailView):
+class DetailGroup(LoginRequiredMixin,DetailView):
     model = models.Group
+    #the name in the url that defines the slug for example 'books/<slug:slug>/
     slug_url_kwarg = 'slug'
+
+
     slug_field = 'slug'
+    # the name of the field in the model that contains the slug
 
 
     # def get(self, request, *args, **kwargs):
@@ -76,7 +80,7 @@ class JoinGroup(LoginRequiredMixin,RedirectView):
         group = get_object_or_404(models.Group,slug=self.kwargs.get('slug'))
 
         try:
-             models.GroupMember.objects.create(user=self.request.user,group=group)
+             models.GroupMember.objects.create(user_profile=self.request.user.user_profile,group=group)
         except IntegrityError:
             messages.warning(self.request,'user already registered')
         else:
@@ -89,12 +93,12 @@ class JoinGroup(LoginRequiredMixin,RedirectView):
 class LeaveGroup(LoginRequiredMixin,RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
-        return reverse('groups:single',kwargs={'slug':self.kwargs.get('slug')})
+        return reverse('groups:all')
 
     def get(self, request, *args, **kwargs):
 
         try:
-            membership = models.GroupMember.objects.filter(user=self.request.user,group__slug=self.kwargs.get('slug')).get()
+            membership = models.GroupMember.objects.filter(user_profile=self.request.user.user_profile,group__slug=self.kwargs.get('slug')).get()
         except models.GroupMember.DoesNotExist:
             messages.warning(self.request,'user no longer in group')
         else:

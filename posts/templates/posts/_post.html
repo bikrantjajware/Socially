@@ -1,5 +1,5 @@
     <div  class="container pt-4 pb-4 text-dark  border-bottom " >
-        <div class=" "><h1 class="display-4" onclick="{% url 'posts:single' username=post.user.username pk=post.pk %}">{{post.title |safe}}</h1> </div>
+        <div class=" "><h1 class="display-4" onclick="{% url 'posts:single' username=post.user.user.username pk=post.pk %}">{{post.title |safe}}</h1> </div>
         <div class="">
             <div class="lead"><p class="lead">{{post.message_html|safe}}</p> </div>
         </div>
@@ -10,6 +10,7 @@
             {% endif %}
             <div class="col-sm-4">created: {{post.created_at}}</div>
             <div class="col-sm-4">updated: {{post.updated_at}}</div>
+            <div class="col-sm-4">updated: {{post.user}}</div>
         </div>
 </div>
 

@@ -18,7 +18,7 @@ class signup(CreateView):
         if self.request.method=="POST":
             user = form.save()
             username = form.cleaned_data.get('username')
-            UserProfile.objects.create(user=user,username=user.username)
+            UserProfile.objects.create(user=user,username=username)
             return redirect('home')
 
 

@@ -31,7 +31,7 @@ class UserProfile(models.Model):
 
 
 
-#
+#using a decorator to bind signals to this function
 @receiver(post_save, sender=User)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:

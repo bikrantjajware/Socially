@@ -2,10 +2,12 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.utils.text import slugify
+from accounts.models import UserProfile
 import misaka
 # Create your models here.
 
 User = get_user_model()
+
 
 from django import  template
 register = template.Library()
@@ -29,6 +31,9 @@ class Group(models.Model):
 
     def get_absolute_url(self):
         return reverse('groups:single',kwargs={'slug':self.slug})
+#Define a get_absolute_url() method to tell Django how to calculate the canonical URL for an object.
+# To callers, this method should appear to return a string that can be used to refer to the object over HTTP.
+
 
     class Meta:
          ordering = ['name']
@@ -36,13 +41,13 @@ class Group(models.Model):
 
 class GroupMember(models.Model):
     group = models.ForeignKey(Group,related_name='memberships',on_delete=models.CASCADE)
-    user = models.ForeignKey(User,related_name='user_groups',on_delete=models.CASCADE)
+    user_profile = models.ForeignKey(User,related_name='user_groups',on_delete=models.CASCADE,blank=True,null=True)
 
     def __str__(self):
         return self.user.username
 
     class Meta:
-        unique_together =('group','user')
+        unique_together =('group','user_profile')
 
 
 

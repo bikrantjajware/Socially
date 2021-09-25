@@ -17,8 +17,6 @@ class Register(ModelForm):
     #     for field in ["username", "password1", "password2", "email","avatar"]:
     #         self.fields[field].help_text = None
 
-
-
     class Meta:
         model = UserProfile
         fields = '__all__'

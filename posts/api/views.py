@@ -8,11 +8,11 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.pagination import PageNumberPagination
 from ..models import Post
 from .serializers import PostSerializer,PostUpdateSerializer
+from django.db.models import  Q
 from django.contrib.auth import models
 from rest_framework.filters import SearchFilter,OrderingFilter
 
-account = models.User.objects.get(username='bikrant')
-print(account)
+
 
 
 @api_view(['GET',])
@@ -37,9 +37,10 @@ class PostList(ListAPIView):
 
         user = self.request.user
         gps=[]
-        for group in user.user_groups.all():
-            gps.append(group.group)
-        return Post.objects.filter(group__in=gps)
+        # for group in user.user_groups.all():
+        #     gps.append(group.group)
+        # Q(group__in=gps) |
+        return Post.objects.filter(Q(group__in=gps) | Q(user=self.request.user))
     # pagination_class = PageNumberPagination
     # filter_backends = (SearchFilter,OrderingFilter)
     # search_fields = ('title','message','user__username')
@@ -69,7 +70,7 @@ def api_update_postview(request,pk):
     requser = request.user
 
     if post.user != requser:
-        return Response({'Response':"you dont have correct permissions to edit "})
+        return Response({'Response':"you don't have correct permissions to edit "})
 
     if request.method == "PUT":
         serializer = PostUpdateSerializer(post,data=request.data)
@@ -109,8 +110,9 @@ def api_delete_postview(request,pk):
 def api_create_postview(request):
     account = request.user
     post = Post(user=account)
+
     if request.method == "POST":
-        serializer = PostUpdateSerializer(post,data=request.data)
+        serializer = PostSerializer(post,data=request.data)
 
         if serializer.is_valid():
             serializer.save()

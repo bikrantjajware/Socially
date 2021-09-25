@@ -25,10 +25,12 @@ from . import  views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.homepage.as_view(),name='home'),
+
     path('accounts/',include('accounts.urls',namespace='accounts')),
     path('accounts/',include("django.contrib.auth.urls")),
     path('groups/',include('groups.urls',namespace='groups')),
     path('posts/',include('posts.urls',namespace='posts')),
+
     path('login_success/',views.login.as_view(),name='login_success'),
     path('thanks/',auth_view.LoginView.as_view(template_name='accounts/login.html'),name='thanks'),
 

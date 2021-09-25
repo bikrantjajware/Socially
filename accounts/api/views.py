@@ -8,6 +8,8 @@ from rest_framework import viewsets
 from .serializers import AccountSerializer,ProfileSerializer
 from rest_framework.authtoken.models import Token
 from django.http import Http404
+from rest_framework.settings import api_settings
+
 
 
 class ProfileViewset(viewsets.ModelViewSet):
@@ -32,9 +34,10 @@ def registration_view(request):
             data['username'] = account.username
             token = Token.objects.get(user=account).key
             data['token']=token
+            return Response(data,status=status.HTTP_200_OK)
         else:
             data=serializer.errors
-        return Response(data)
+            return Response(data)
 
 
 @api_view(['GET',])
