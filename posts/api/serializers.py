@@ -15,14 +15,20 @@ from groups.models import Group
 class PostSerializer(serializers.ModelSerializer):
 
     username = serializers.SerializerMethodField("get_username")
+    groupname = serializers.SerializerMethodField("get_groupname")
     # group = AttrPKField()
     class Meta:
         model = Post
-        fields = ['id','title','message','group','username','updated_at']
+        fields = ['id','title','message','groupname','group','username','updated_at','slug']
 
     def get_username(self,post):
         username = post.user.username
         return username
+
+    def get_groupname(self,post):
+        groupname = post.group.name if post.group != None else None
+        return groupname
+
 
 
 

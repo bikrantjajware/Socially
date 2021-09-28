@@ -13,13 +13,12 @@ from django.contrib.auth import models
 from rest_framework.filters import SearchFilter,OrderingFilter
 
 
-
-
 @api_view(['GET',])
 @permission_classes((IsAuthenticated,))
 def api_detail_view(request,slug):
     try:
         userpost = Post.objects.get(slug=slug)
+        # print(userpost.group.name)
     except Post.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     if request.method == "GET":
@@ -29,18 +28,21 @@ def api_detail_view(request,slug):
 
 class PostList(ListAPIView):
     serializer_class = PostSerializer
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    queryset = Post.objects.all()
+    authentication_classes = ()
+    permission_classes = ()
+    # authentication_classes = (TokenAuthentication,)
+    # permission_classes = (IsAuthenticated,)
 
 
-    def get_queryset(self):
-
-        user = self.request.user
-        gps=[]
-        # for group in user.user_groups.all():
-        #     gps.append(group.group)
-        # Q(group__in=gps) |
-        return Post.objects.filter(Q(group__in=gps) | Q(user=self.request.user))
+    # def get_queryset(self):
+    #
+    #     user = self.request.user
+    #     gps=[]
+    #     # for group in user.user_groups.all():
+    #     #     gps.append(group.group)
+    #     # Q(group__in=gps) |
+    #     return Post.objects.filter(Q(group__in=gps) | Q(user=self.request.user))
     # pagination_class = PageNumberPagination
     # filter_backends = (SearchFilter,OrderingFilter)
     # search_fields = ('title','message','user__username')
@@ -62,9 +64,9 @@ class PostUpdate(APIView):
 
 @api_view(['PUT',])
 @permission_classes((IsAuthenticated,))
-def api_update_postview(request,pk):
+def api_update_postview(request,slug):
     try:
-        post = Post.objects.get(pk=pk)
+        post = Post.objects.get(slug=slug)
     except Post.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     requser = request.user

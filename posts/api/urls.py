@@ -6,7 +6,7 @@ app_name = 'posts'
 
 urlpatterns = [
     path('all/',PostList.as_view(),name='postlist'),
-    path('update/<int:pk>/',api_update_postview,name='postupdate'),
+    path('update/<slug:slug>/',api_update_postview,name='postupdate'),
     path('create/',api_create_postview,name='postcreate'),
     path('delete/<int:pk>/',api_delete_postview,name='postdelete'),
     path('detail/<slug:slug>/',api_detail_view,name='postdetail'),
